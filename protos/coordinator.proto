@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option go_package = "protos/pb";
+package grep;
+
+// Interface exported by the worker server.
+service GrepInterface {
+  //Executes Grep on a remote machine.
+  rpc Grep(GrepRequest) returns (GrepResponse) {}
+  rpc CallWorkerCreateLogs(WorkerCreateLogsRequest) returns (WorkerCreateLogsResponse){}
+  rpc CallWorkerDeleteLogs(WorkerDeleteLogsRequest) returns (WorkerDeleteLogsResponse){}
+}
+
+// The request of the grep command on a remote machine.
+message GrepRequest {
+  // The search string of the grep command.
+  string searchString = 1;
+  // The search options of the grep command.
+  string searchOptions = 2;
+  // The file to be searched.
+  string searchFile = 3;
+}
+
+// The response of the grep command on a remote machine.
+message GrepResponse {
+  // Single line string output of the grep command.
+  string grepOutput = 1;
+}
+
+message WorkerCreateLogsRequest{
+  // VM number in which the log is getting created
+  int32 vmIndex = 1;
+}
+
+message WorkerCreateLogsResponse{
+}
+
+message WorkerDeleteLogsRequest{
+}
+
+message WorkerDeleteLogsResponse{
+}

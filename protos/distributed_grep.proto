@@ -1,0 +1,40 @@
+syntax = "proto3";
+option go_package = "distributed_grep/pb";
+
+// Interface exported by the coordinator server.
+service DistributedGrep{
+    //Relays client requests to coordinator.
+    rpc CallGrep(ClientRequest) returns (CoordinatorResponse){}
+    rpc CallCreateLogs(CreateLogsRequest) returns (CreateLogsResponse){}
+    rpc CallDeleteLogs(DeleteLogsRequest) returns (DeleteLogsResponse){}
+}
+
+// The request of the grep command on a remote machine.
+message ClientRequest{
+    // The search string of the grep command.
+    string queryString = 1;
+    // The search options of the grep command.
+    string args = 2;
+    // The file to be searched.
+    string queryFile = 3;
+}
+
+// The response of the distributed grep command.
+message CoordinatorResponse{
+    //array with responses of the grep command on the remote workers.
+    repeated string result = 1;
+    //cumulative of lines matched.
+    int64 total = 2;
+}
+
+message CreateLogsRequest{
+}
+
+message CreateLogsResponse{
+}
+
+message DeleteLogsRequest{
+}
+
+message DeleteLogsResponse{
+}

@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option go_package = "protos/pb";
+package grep;
+
+// Interface exported by the worker server.
+service IntroInterface {
+  //Executes Grep on a remote machine.
+  rpc RequestIntro(IntroRequest) returns (IntroResponse) {}
+  rpc InformDeath(DeathInfo) returns(DeathAck) {}
+}
+
+// The request of the grep command on a remote machine.
+message IntroRequest {
+  // The ip address of the peer that needs introduction
+  string hostName = 1;
+  int32 incarnation = 2;
+  int64 timestamp = 3;
+}
+
+message peer {
+  string hostname = 1;
+  int64 timestamp = 2;
+  int64 status = 3;
+  int64 incarnation = 4;
+}
+
+// The response of the grep command on a remote machine.
+message IntroResponse {
+  // Single line string output of the grep command.
+  repeated peer peers = 1;
+
+}
+
+message DeathInfo{
+}
+
+message DeathAck{
+}
